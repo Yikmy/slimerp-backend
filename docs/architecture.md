@@ -29,6 +29,7 @@ kernel 目标是“可复用、可预测、低变更”，建议只包含：
 - rbac：授权（角色、权限码、策略）
 - audit：审计追踪（关键动作留痕）
 - system_config：系统参数、模块开关
+- company: 轻量公司设定
 - support：轻量注册与事件接口（事件、hook、模块元信息）
 
 kernel 对 apps 的唯一“了解方式”是通过注册/元信息读取（例如 module_meta/registry），禁止直接 import 业务模块实现。

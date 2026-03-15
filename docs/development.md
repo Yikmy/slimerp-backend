@@ -9,7 +9,7 @@
 
 ## 代码组织
 
-- kernel：稳定层，只接受“通用能力”变更
+- kernel：稳定层，开发模块时禁止变动
 - apps：业务模块层，每个模块自包含（models/selectors/services/api/hooks/handlers）
 - plugs：可删除、实验性能力，不得反向污染 kernel 的抽象
 

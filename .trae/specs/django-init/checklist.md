@@ -1,0 +1,9 @@
+- [x] `django-admin` command is available
+- [x] `requirements/base.txt` contains `Django` and `djangorestframework`
+- [x] `manage.py` exists in backend root and is executable
+- [x] `config/settings/base.py` exists
+- [x] `config/settings/dev.py` exists and imports from base
+- [x] `kernel/` directory exists
+- [x] `apps/` directory exists
+- [x] `docs/` directory is untouched
+- [x] `python manage.py check` runs successfully
