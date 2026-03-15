@@ -19,11 +19,25 @@ class CompanyService:
         return company
 
     @staticmethod
-    def get_user_companies(user) -> List[Company]:
+    def get_user_companies(user):
         """
         Get all companies accessible by the user.
         """
-        return list(Company.objects.filter(user_accesses__user=user))
+        return Company.objects.filter(user_accesses__user=user)
+
+    @staticmethod
+    def get_user_company_accesses(user):
+        """
+        Get UserCompanyAccess objects for the user.
+        """
+        return UserCompanyAccess.objects.filter(user=user).select_related('company')
+
+    @staticmethod
+    def user_has_company(user, company_id: str) -> bool:
+        """
+        Check if user has access to the company.
+        """
+        return UserCompanyAccess.objects.filter(user=user, company_id=company_id).exists()
 
     @staticmethod
     def assert_company_access(user, company_id: str) -> Company:
@@ -36,7 +50,7 @@ class CompanyService:
         except Company.DoesNotExist:
             raise CompanyNotFound(f"Company {company_id} does not exist")
 
-        if not UserCompanyAccess.objects.filter(user=user, company=company).exists():
+        if not CompanyService.user_has_company(user, company_id):
             raise CompanyAccessDenied(f"User {user} has no access to company {company.name}")
             
         return company

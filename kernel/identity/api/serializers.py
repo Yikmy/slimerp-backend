@@ -18,10 +18,15 @@ class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
 
+class CompanyAccessSerializer(serializers.Serializer):
+    id = serializers.UUIDField(source='company.id')
+    name = serializers.CharField(source='company.name')
+    is_default = serializers.BooleanField()
+
 class MeResponseSerializer(serializers.Serializer):
     """
     Serializer for 'me' endpoint response structure.
     """
     user = UserSerializer()
-    current_company = CompanySerializer(allow_null=True)
+    companies = CompanyAccessSerializer(many=True)
     roles = serializers.ListField(child=serializers.CharField(), allow_empty=True) # Placeholder

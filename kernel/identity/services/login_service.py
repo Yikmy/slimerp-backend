@@ -2,7 +2,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
 from kernel.identity.exceptions import InvalidCredentials, AccountDisabled
 from kernel.audit.services.audit_service import AuditService
-from kernel.company.services.company_context_service import CompanyContextService
 
 User = get_user_model()
 
@@ -38,9 +37,7 @@ class LoginService:
         login(request, user)
         
         # Log success
-        # Try to get default company for audit log context if possible
-        company = CompanyContextService.get_current_company(user)
-        AuditService.log_login(user, company, request, True)
+        AuditService.log_login(user, None, request, True)
         
         return user
 
@@ -52,7 +49,6 @@ class LoginService:
         user = request.user
         if user.is_authenticated:
             # Audit logout
-            company = CompanyContextService.get_current_company(user, request)
-            AuditService.log_action(user, company, "LOGOUT", str(user))
+            AuditService.log_action(user, None, "LOGOUT", str(user))
             
         logout(request)

@@ -58,4 +58,5 @@ class TestIdentityAPI:
         assert resp.status_code == 200
         assert resp.data['data']['user']['username'] == 'me_user'
         # Current company might be null if not set
-        assert 'current_company' in resp.data['data']
+        assert 'companies' in resp.data['data']
+        assert 'current_company' not in resp.data['data']

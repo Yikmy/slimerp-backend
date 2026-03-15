@@ -5,7 +5,7 @@ from kernel.identity.services.login_service import LoginService
 from kernel.identity.services.session_service import SessionService
 from kernel.identity.services.password_service import PasswordService
 from kernel.identity.api.serializers import LoginSerializer, ChangePasswordSerializer, MeResponseSerializer
-from kernel.company.services.company_context_service import CompanyContextService
+from kernel.company.services.company_service import CompanyService
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -38,7 +38,7 @@ class MeView(APIView):
 
     def get(self, request):
         user = request.user
-        current_company = CompanyContextService.get_current_company(user, request)
+        companies = CompanyService.get_user_company_accesses(user)
         
         # Roles placeholder - RBAC not implemented fully yet
         roles = [] 
@@ -47,7 +47,7 @@ class MeView(APIView):
 
         data = {
             "user": user,
-            "current_company": current_company,
+            "companies": companies,
             "roles": roles
         }
         

@@ -2,7 +2,6 @@ import pytest
 from django.contrib.auth import get_user_model
 from kernel.company.models import Company, UserCompanyAccess
 from kernel.company.services.company_service import CompanyService
-from kernel.company.services.company_context_service import CompanyContextService
 from kernel.company.exceptions import CompanyNotFound, CompanyAccessDenied
 
 User = get_user_model()
@@ -27,29 +26,14 @@ class TestCompanyService:
         UserCompanyAccess.objects.create(user=user, company=company)
         assert CompanyService.assert_company_access(user, company.id) == company
 
-@pytest.mark.django_db
-class TestCompanyContext:
-    def test_switch_company(self):
-        user = User.objects.create_user(username='context_user', password='password')
-        c1 = CompanyService.create_company(name="C1", code="C1", creator_user=user)
-        c2 = CompanyService.create_company(name="C2", code="C2", creator_user=user)
+    def test_user_has_company(self):
+        user = User.objects.create_user(username='user3', password='password')
+        company = CompanyService.create_company(name="Check Access Corp", code="CHKACC")
         
-        # Mock request with session
-        class MockRequest:
-            def __init__(self, u):
-                self.session = {}
-                self.user = u
-            
-        req = MockRequest(user)
+        assert not CompanyService.user_has_company(user, company.id)
         
-        # Switch to C2
-        CompanyContextService.switch_company(user, c2.id, req)
-        assert req.session['company_id'] == str(c2.id)
-        
-        # Get context from session (simulated)
-        req.company_id = req.session['company_id']
-        current = CompanyContextService.get_current_company(user, req)
-        assert current == c2
+        UserCompanyAccess.objects.create(user=user, company=company)
+        assert CompanyService.user_has_company(user, company.id)
 
 @pytest.mark.django_db
 class TestCompanyAPI:
@@ -62,3 +46,18 @@ class TestCompanyAPI:
         assert resp.status_code == 200
         assert len(resp.data['data']) == 1
         assert resp.data['data'][0]['code'] == "AC1"
+
+    def test_verify_company_access(self, client):
+        user = User.objects.create_user(username='verify_user', password='password')
+        c1 = CompanyService.create_company(name="Verify C1", code="VC1", creator_user=user)
+        c2 = CompanyService.create_company(name="Verify C2", code="VC2") # No access
+        client.force_login(user)
+        
+        # Verify access to C1
+        resp = client.post('/api/v1/companies/verify/', {'company_id': c1.id})
+        assert resp.status_code == 200
+        assert resp.data['data']['has_access'] is True
+        
+        # Verify access to C2
+        resp = client.post('/api/v1/companies/verify/', {'company_id': c2.id})
+        assert resp.status_code == 403
