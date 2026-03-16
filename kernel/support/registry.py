@@ -1,4 +1,6 @@
-from typing import Dict, Any, Type, Optional
+from kernel.support.exceptions import RegistryKeyError
+from typing import Dict, Any, Optional
+
 
 class SimpleRegistry:
     """
@@ -12,9 +14,7 @@ class SimpleRegistry:
     def register(self, key: str, item: Any):
         """Register an item with a key."""
         if key in self._items:
-            # Depending on use case, might want to raise or just warn/overwrite
-            # Here we just overwrite, but can be customized
-            pass
+            raise RegistryKeyError(f"Key '{key}' is already registered in '{self.name}'")
         self._items[key] = item
 
     def get(self, key: str) -> Optional[Any]:

@@ -9,3 +9,8 @@ class HookNotFound(SupportException):
 class HookExecutionError(SupportException):
     """Raised when a hook callback execution fails."""
     pass
+
+
+class RegistryKeyError(SupportException):
+    """Raised when attempting invalid key operations in registries."""
+    pass

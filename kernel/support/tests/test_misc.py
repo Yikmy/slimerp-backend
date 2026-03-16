@@ -1,4 +1,6 @@
+import pytest
 from kernel.support.registry import SimpleRegistry
+from kernel.support.exceptions import RegistryKeyError
 from kernel.support.module_meta import get_installed_modules, get_module_meta
 
 def test_simple_registry():
@@ -34,3 +36,12 @@ def test_module_meta():
     # Test unknown
     unknown_meta = get_module_meta('unknown.app')
     assert unknown_meta == {}
+
+
+def test_simple_registry_duplicate_key_raises():
+    reg = SimpleRegistry("test_reg")
+    reg.register("key1", "val1")
+
+    with pytest.raises(RegistryKeyError):
+        reg.register("key1", "val2")
+
