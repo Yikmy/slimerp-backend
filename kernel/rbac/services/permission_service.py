@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from kernel.company.services.company_service import CompanyService
 from kernel.rbac.exceptions import PermissionCodeNotFound
 from kernel.rbac.models import Permission, RolePermission, UserRole
 from kernel.rbac.policies import PolicyRegistry
@@ -18,6 +19,9 @@ class PermissionService:
         permission = Permission.objects.filter(code=code).first()
         if permission is None:
             raise PermissionCodeNotFound(f'Permission {code} does not exist')
+
+        if not CompanyService.user_has_company(user=user, company_id=str(company.id)):
+            return PermissionCheckResult(allowed=False, reason='company_access_denied')
 
         user_role_ids = UserRole.objects.filter(user=user, company=company).values_list('role_id', flat=True)
         granted = RolePermission.objects.filter(role_id__in=user_role_ids, permission=permission).exists()
