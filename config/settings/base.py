@@ -26,8 +26,12 @@ SECRET_KEY = 'django-insecure-3@@+6l8#ua6h_4$9uv7a0et62-jxg46=31(%bz!)is+1f)ef9p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
+
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'kernel.core.api.exceptions.core_exception_handler'
+}
 
 # Application definition
 

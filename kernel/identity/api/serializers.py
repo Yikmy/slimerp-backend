@@ -21,6 +21,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 class CompanyAccessSerializer(serializers.Serializer):
     id = serializers.UUIDField(source='company.id')
     name = serializers.CharField(source='company.name')
+    code = serializers.CharField(source='company.code')
     is_default = serializers.BooleanField()
 
 class MeResponseSerializer(serializers.Serializer):
