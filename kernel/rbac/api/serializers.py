@@ -16,6 +16,7 @@ class AssignRoleSerializer(serializers.Serializer):
 
 
 class GrantPermissionSerializer(serializers.Serializer):
+    company_id = serializers.UUIDField()
     role_name = serializers.CharField(max_length=100)
     permission_code = serializers.CharField(max_length=120)
 
