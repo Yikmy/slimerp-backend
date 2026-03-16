@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'kernel.core',
     'kernel.company',
     'kernel.identity',
+    'kernel.rbac',
 ]
 
 AUTH_USER_MODEL = 'identity.User'
