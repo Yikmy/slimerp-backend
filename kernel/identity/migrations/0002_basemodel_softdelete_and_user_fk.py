@@ -1,4 +1,5 @@
 import django.db.models.deletion
+from django.conf import settings
 from django.db import migrations, models
 
 
@@ -17,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='created_by',
-            field=models.ForeignKey(blank=True, help_text='Creator user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='created_identity_user_set', to='identity.user'),
+            field=models.ForeignKey(blank=True, help_text='Creator user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='created_%(app_label)s_%(class)s_set', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='user',
@@ -27,6 +28,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='updated_by',
-            field=models.ForeignKey(blank=True, help_text='Updater user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='updated_identity_user_set', to='identity.user'),
+            field=models.ForeignKey(blank=True, help_text='Updater user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='updated_%(app_label)s_%(class)s_set', to=settings.AUTH_USER_MODEL),
         ),
     ]

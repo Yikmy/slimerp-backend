@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='company',
             name='created_by',
-            field=models.ForeignKey(blank=True, help_text='Creator user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='created_company_company_set', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, help_text='Creator user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='created_%(app_label)s_%(class)s_set', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='company',
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='company',
             name='updated_by',
-            field=models.ForeignKey(blank=True, help_text='Updater user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='updated_company_company_set', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, help_text='Updater user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='updated_%(app_label)s_%(class)s_set', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='usercompanyaccess',
@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='usercompanyaccess',
             name='created_by',
-            field=models.ForeignKey(blank=True, help_text='Creator user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='created_company_usercompanyaccess_set', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, help_text='Creator user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='created_%(app_label)s_%(class)s_set', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='usercompanyaccess',
@@ -49,6 +49,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='usercompanyaccess',
             name='updated_by',
-            field=models.ForeignKey(blank=True, help_text='Updater user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='updated_company_usercompanyaccess_set', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, help_text='Updater user', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='updated_%(app_label)s_%(class)s_set', to=settings.AUTH_USER_MODEL),
         ),
     ]
