@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'kernel.audit',
     'kernel.system_config',
     'kernel.support',
+    'apps.material',
 ]
 
 AUTH_USER_MODEL = 'identity.User'

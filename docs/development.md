@@ -9,7 +9,7 @@
 
 ## 代码组织
 
-- kernel：稳定层，开发模块时禁止变动
+- kernel：稳定层，开发模块时禁止变动核心业务
 - apps：业务模块层，每个模块自包含（models/selectors/services/api/hooks/handlers）
 - plugs：可删除、实验性能力，不得反向污染 kernel 的抽象
 
@@ -49,3 +49,4 @@ MVP 阶段建议至少覆盖：
 - models / services / api 最小闭环可运行
 - 权限码可被 rbac 注册
 - 至少有一组 tests 覆盖关键写入逻辑
+

@@ -8,4 +8,5 @@ urlpatterns = [
     path('api/v1/rbac/', include('kernel.rbac.api.urls')),
     path('api/v1/audit/', include('kernel.audit.api.urls')),
     path('api/v1/config/', include('kernel.system_config.api.urls')),
+    path('api/material/', include('apps.material.api.urls')),
 ]
